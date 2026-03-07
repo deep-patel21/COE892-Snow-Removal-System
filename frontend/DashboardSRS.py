@@ -24,6 +24,20 @@ def configure_streamlit_app():
         initial_sidebar_state="expanded",
     )
 
+    st.markdown("""
+        <style>
+        [data-testid="stMetric"] {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            padding: 20px 24px;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+        </style>
+    """, unsafe_allow_html=True)
+
 def create_sidebar():
     with st.sidebar:
         st.markdown("## :snowflake: **Snow Removal System**")
@@ -33,7 +47,7 @@ def create_sidebar():
         pages = [
             ":bar_chart: **Overview**",
             ":cloud_with_rain: **Weather**",
-            ":red_car: **Vehicles**",
+            ":truck: **Vehicles**",
             ":date: **Scheduling**"
         ]
 
