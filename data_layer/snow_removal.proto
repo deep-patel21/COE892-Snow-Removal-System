@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package snow_removal;
+
+// The service definition exposing a server-side stream
+service RoadMonitor {
+  rpc StreamConditions (CoordinateRequest) returns (stream RoadConditionUpdate);
+}
+
+// The input from the Scheduler
+message CoordinateRequest {
+  float latitude = 1;
+  float longitude = 2;
+}
+
+// The nested weather variables from MSC GeoMet
+message WeatherData {
+  float temperature_c = 1;
+  float wind_speed_kmh = 2;
+  float snow_depth_cm = 3;
+}
+
+// The complete payload delivered to the Scheduler
+message RoadConditionUpdate {
+  string road_type = 1;
+  string dispatch_priority = 2;
+  float traffic_speed_kmh = 3;
+  WeatherData weather = 4;
+}
