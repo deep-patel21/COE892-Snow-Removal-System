@@ -27,7 +27,7 @@ def fetch_traffic_data(lat: float, lon: float) -> dict:
 def fetch_weather_data(lat: float, lon: float) -> dict:
     """Extracts localized environmental variables using a dynamic bounding box."""
 
-    # Define a localized radius (0.05 degrees is roughly 5.5 kilometers)
+    # Define a localized radius around the coordinates to capture nearby weather stations
     # This creates a tight 10x10km net around the specific road segment
     delta = 0.3
     bbox = f"{lon - delta},{lat - delta},{lon + delta},{lat + delta}"

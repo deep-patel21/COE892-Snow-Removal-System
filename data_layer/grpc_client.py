@@ -1,4 +1,9 @@
+"""
+Written as a tester file to test gRPC communications
+"""
+
 import grpc
+
 import snow_removal_pb2
 import snow_removal_pb2_grpc
 
