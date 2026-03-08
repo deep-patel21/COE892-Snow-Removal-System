@@ -64,3 +64,13 @@ def calculate_road_type(frc: str) -> tuple[str, str]:
         road_type = "RESIDENTIAL"
 
     return road_type
+
+def calculate_priority_level(snow_depth_mm: int) -> str:
+    if snow_depth_mm >= 200:   # Heavy snow
+        return "High"
+    elif snow_depth_mm >= 100: # Moderate snow
+        return "Medium"
+    elif snow_depth_mm > 0:    # Light snow
+        return "Low"
+    else:
+        return "Clear"
