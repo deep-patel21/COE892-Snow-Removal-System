@@ -1,9 +1,10 @@
 # COE892-Snow-Removal-System
 Work in Progress
+<br>
 Source code for the term project of course COE892 at Toronto Metropolitan University. Please refrain from copying.
 
-Dependencies:
+Dependency Installation:
 ```pip install -r requirements.txt```
 
-Streamlit Dashboards:
-```python3 -m streamlit run <streamlit_filename>.py```
+Run the Streamlit Dashboard:
+```python3 -m streamlit run DashboardSRS.py```
