@@ -9,5 +9,8 @@ Dependency Installation (development performed on Python 3.11.9):
 Run the Data Extraction Layer:
 ```python3 -m uvicorn data_layer.data_extraction:app --reload```
 
+Run the gPRC Server:
+```python3 -u data_layer/grpc_server.py```
+
 Run the Streamlit Dashboard:
 ```python3 -m streamlit run DashboardSRS.py```

@@ -70,7 +70,7 @@ def calculate_priority_level(snow_depth_mm: int) -> str:
         return "High"
     elif snow_depth_mm >= 100: # Moderate snow
         return "Medium"
-    elif snow_depth_mm > 0:                     # Light snow
+    elif snow_depth_mm > 0:    # Light snow
         return "Low"
     else:
         return "Clear"

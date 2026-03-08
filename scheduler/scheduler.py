@@ -3,11 +3,9 @@ import os
 import grpc
 import pandas as pd
 
-# Add grpc_server folder to Python path
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "data_layer")))
-import snow_removal_pb2
-import snow_removal_pb2_grpc
-from data_helpers import COORDINATES as locations
+import data_layer.snow_removal_pb2 as snow_removal_pb2
+import data_layer.snow_removal_pb2_grpc as snow_removal_pb2_grpc
+from data_layer.data_helpers import COORDINATES as locations
 
 #Temp
 def get_fleet_data():
