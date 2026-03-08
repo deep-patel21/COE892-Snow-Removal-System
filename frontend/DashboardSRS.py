@@ -27,13 +27,22 @@ def configure_streamlit_app():
     st.markdown("""
         <style>
         [data-testid="stMetric"] {
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(0, 0, 128, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.15);
             border-radius: 12px;
             padding: 20px 24px;
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+        [data-testid="stPlotlyChart"] {
+            background: rgba(0, 0, 128, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            padding: 8px;
         }
         </style>
     """, unsafe_allow_html=True)
