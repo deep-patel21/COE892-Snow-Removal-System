@@ -4,7 +4,7 @@ import pydeck
 import plotly.express as px
 from functools import partial
 
-from data_layer.data_utilities import search_matches
+from data_layer.data_helpers import search_matches
 
 
 VEHICLES = ["Highway Plow", "Road Plow", "Pickup Truck Plow", "Salting Truck"]

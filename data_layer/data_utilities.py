@@ -4,11 +4,11 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-# Hardcoded for development; move to environment variables for production.
 TOMTOM_KEY = os.getenv("API_KEY")
 
 def fetch_traffic_data(lat: float, lon: float) -> dict:
     """Extracts traffic density and road classification from TomTom."""
+
     url = f"https://api.tomtom.com/traffic/services/4/flowSegmentData/absolute/10/json?point={lat},{lon}&key={TOMTOM_KEY}"
     
     try:
@@ -55,6 +55,7 @@ def fetch_weather_data(lat: float, lon: float) -> dict:
 
 def calculate_priority(frc: str, snow_depth: float) -> tuple[str, str]:
     """Translates raw API data into Scheduler priorities."""
+
     if frc in ["FRC0", "FRC1", "FRC2"]:
         road_type = "HIGHWAY"
     elif frc in ["FRC3", "FRC4"]:
