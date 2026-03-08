@@ -5,3 +5,4 @@ pydeck==0.9.1
 uvicorn
 fastapi
 requests
+python-dotenv
