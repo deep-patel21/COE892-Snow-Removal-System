@@ -29,22 +29,18 @@ class RoadMonitorService(snow_removal_pb2_grpc.RoadMonitorServicer):
             weather = utils.fetch_weather_data(request.latitude, request.longitude)
             
             # 2. Determine road priority based on your business logic
-            road_type, priority = utils.calculate_priority(
-                traffic["frc"], 
-                weather["snow_depth_cm"]
-            )
-            
+            road_type = utils.calculate_road_type(traffic["frc"])
+
             # 3. Package the weather data into the Protobuf structure
             weather_msg = snow_removal_pb2.WeatherData(
                 temperature_c=weather["temperature_c"],
                 wind_speed_kmh=weather["wind_speed_kmh"],
-                snow_depth_cm=weather["snow_depth_cm"]
+                snow_depth_mm=weather["snow_depth_mm"]
             )
             
             # 4. Construct and yield the final RoadConditionUpdate message
             yield snow_removal_pb2.RoadConditionUpdate(
                 road_type=road_type,
-                dispatch_priority=priority,
                 traffic_speed_kmh=traffic["current_speed"],
                 weather=weather_msg
             )

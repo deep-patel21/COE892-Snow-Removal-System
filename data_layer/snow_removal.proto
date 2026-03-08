@@ -17,7 +17,7 @@ message CoordinateRequest {
 message WeatherData {
   float temperature_c = 1;
   float wind_speed_kmh = 2;
-  float snow_depth_cm = 3;
+  float snow_depth_mm = 3;
 }
 
 // The complete payload delivered to the Scheduler
