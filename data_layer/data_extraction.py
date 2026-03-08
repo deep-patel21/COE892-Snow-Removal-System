@@ -5,8 +5,10 @@ app = FastAPI(title="Snow Removal Extraction Module")
 
 # Geographic Bounding Box Validation for Greater Toronto Area
 BOUNDS = {
-    "lat_min": 43.58, "lat_max": 43.85,
-    "lon_min": -79.85, "lon_max": -79.12
+    "lat_min": 43.50,
+    "lat_max": 44.00,
+    "lon_min": -79.85,
+    "lon_max": -79.12  
 }
 
 @app.get("/api/v1/road_status")
@@ -26,7 +28,7 @@ def get_road_status(lat: float, lon: float):
     
     road_type, priority = utils.calculate_priority(
         traffic["frc"], 
-        weather["snow_depth_cm"]
+        weather["snow_depth_mm"]
     )
     
     payload = {
@@ -34,9 +36,11 @@ def get_road_status(lat: float, lon: float):
         "dispatch_priority": priority,
         "traffic_speed_kmh": traffic["current_speed"],
         "weather": {
+            "station_name": weather["station"],
             "temperature_c": weather["temperature_c"],
             "wind_speed_kmh": weather["wind_speed_kmh"],
-            "snow_depth_cm": weather["snow_depth_cm"]
+            "snow_depth_mm": weather["snow_depth_mm"],
+            "day_snowfall_mm": weather["day_snowfall_mm"]
         }
     }
     

@@ -5,18 +5,12 @@ import plotly.express as px
 from functools import partial
 
 from data_layer.data_helpers import search_matches
+from data_layer.data_helpers import COORDINATES
 
 
 VEHICLES = ["Highway Plow", "Road Plow", "Pickup Truck Plow", "Salting Truck"]
 VEHICLE_STATUS = ["Idle", "En Route", "Active", "Cancelled", "Under Maintenance"]
 ZONES = ["Zone 1 — North Toronto", "Zone 2 — West Toronto", "Zone 3 — East Toronto", "Zone 4 — Brampton"]
-COORDINATES = {
-    "Zone 1 — North Toronto": {"lat": 43.761, "lon": -79.411},
-    "Zone 2 — West Toronto":  {"lat": 43.651, "lon": -79.495},
-    "Zone 3 — East Toronto":  {"lat": 43.673, "lon": -79.298},
-    "Zone 4 — Brampton":      {"lat": 43.685, "lon": -79.759},
-}
-
 
 # TK - move sample vehicle fleet data into a database or dedicated file atleast
 def get_fleet_data():
