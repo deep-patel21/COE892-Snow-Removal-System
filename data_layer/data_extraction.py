@@ -1,12 +1,12 @@
 from fastapi import FastAPI, HTTPException
-import data_utilities as utils
+import data_layer.data_utilities as utils
 
 app = FastAPI(title="Snow Removal Extraction Module")
 
-# Geographic Bounding Box Validation
-TORONTO_BOUNDS = {
+# Geographic Bounding Box Validation for Greater Toronto Area
+BOUNDS = {
     "lat_min": 43.58, "lat_max": 43.85,
-    "lon_min": -79.63, "lon_max": -79.12
+    "lon_min": -79.85, "lon_max": -79.12
 }
 
 @app.get("/api/v1/road_status")
@@ -17,8 +17,8 @@ def get_road_status(lat: float, lon: float):
     """
     
     # Enforce geographic constraints to prevent wasted API calls
-    if not (TORONTO_BOUNDS["lat_min"] <= lat <= TORONTO_BOUNDS["lat_max"]) or \
-       not (TORONTO_BOUNDS["lon_min"] <= lon <= TORONTO_BOUNDS["lon_max"]):
+    if not (BOUNDS["lat_min"] <= lat <= BOUNDS["lat_max"]) or \
+       not (BOUNDS["lon_min"] <= lon <= BOUNDS["lon_max"]):
         raise HTTPException(status_code=400, detail="Coordinates outside designated zone.")
     
     traffic = utils.fetch_traffic_data(lat, lon)
