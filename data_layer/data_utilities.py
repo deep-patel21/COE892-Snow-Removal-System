@@ -24,8 +24,17 @@ def fetch_traffic_data(lat: float, lon: float) -> dict:
         return {"frc": "FRC6", "current_speed": 0}
 
 def fetch_weather_data(lat: float, lon: float) -> dict:
-    """Extracts live environmental variables from MSC GeoMet."""
-    url = f"https://api.weather.gc.ca/collections/swob-realtime/items?lat={lat}&lon={lon}&f=json&limit=1"
+    """Extracts localized environmental variables using a dynamic bounding box."""
+    
+    # Define a localized radius (0.05 degrees is roughly 5.5 kilometers)
+    # This creates a tight 10x10km net around the specific road segment
+    delta = 0.05 
+    
+    # Calculate the boundaries: min_lon, min_lat, max_lon, max_lat
+    bbox = f"{lon - delta},{lat - delta},{lon + delta},{lat + delta}"
+    
+    # The API now searches only within this specific micro-zone
+    url = f"https://api.weather.gc.ca/collections/swob-realtime/items?bbox={bbox}&f=json&limit=1"
     
     try:
         response = requests.get(url, timeout=5).json()
@@ -39,8 +48,9 @@ def fetch_weather_data(lat: float, lon: float) -> dict:
                 "snow_depth_cm": props.get("snw_dpth", 0.0)
             }
     except requests.RequestException:
-        pass
-    
+        print(f"Warning: MSC GeoMet connection failed for zone {bbox}.")
+        
+    # Failsafe ensures the system continues operating if a local sensor is offline
     return {"temperature_c": 0.0, "wind_speed_kmh": 0.0, "snow_depth_cm": 0.0}
 
 def calculate_priority(frc: str, snow_depth: float) -> tuple[str, str]:
