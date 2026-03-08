@@ -27,10 +27,9 @@ def run():
             for response in responses:
                 print("--- LIVE UPDATE RECEIVED ---")
                 print(f"Road Type: {response.road_type}")
-                print(f"Dispatch Priority: {response.dispatch_priority}")
                 print(f"Traffic Speed: {response.traffic_speed_kmh} km/h")
                 print(f"Temperature: {response.weather.temperature_c} °C")
-                print(f"Snow Depth: {response.weather.snow_depth_cm} cm")
+                print(f"Snow Depth: {response.weather.snow_depth_mm} mm")
                 print(f"Wind Speed: {response.weather.wind_speed_kmh} km/h\n")
         except grpc.RpcError as e:
             print(f"Connection failed or terminated: {e.details()}")

@@ -24,7 +24,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x12snow_removal.proto\x12\x0csnow_removal\"8\n\x11\x43oordinateRequest\x12\x10\n\x08latitude\x18\x01 \x01(\x02\x12\x11\n\tlongitude\x18\x02 \x01(\x02\"S\n\x0bWeatherData\x12\x15\n\rtemperature_c\x18\x01 \x01(\x02\x12\x16\n\x0ewind_speed_kmh\x18\x02 \x01(\x02\x12\x15\n\rsnow_depth_cm\x18\x03 \x01(\x02\"\x8a\x01\n\x13RoadConditionUpdate\x12\x11\n\troad_type\x18\x01 \x01(\t\x12\x19\n\x11\x64ispatch_priority\x18\x02 \x01(\t\x12\x19\n\x11traffic_speed_kmh\x18\x03 \x01(\x02\x12*\n\x07weather\x18\x04 \x01(\x0b\x32\x19.snow_removal.WeatherData2g\n\x0bRoadMonitor\x12X\n\x10StreamConditions\x12\x1f.snow_removal.CoordinateRequest\x1a!.snow_removal.RoadConditionUpdate0\x01\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x12snow_removal.proto\x12\x0csnow_removal\"8\n\x11\x43oordinateRequest\x12\x10\n\x08latitude\x18\x01 \x01(\x02\x12\x11\n\tlongitude\x18\x02 \x01(\x02\"S\n\x0bWeatherData\x12\x15\n\rtemperature_c\x18\x01 \x01(\x02\x12\x16\n\x0ewind_speed_kmh\x18\x02 \x01(\x02\x12\x15\n\rsnow_depth_mm\x18\x03 \x01(\x02\"\x8a\x01\n\x13RoadConditionUpdate\x12\x11\n\troad_type\x18\x01 \x01(\t\x12\x19\n\x11\x64ispatch_priority\x18\x02 \x01(\t\x12\x19\n\x11traffic_speed_kmh\x18\x03 \x01(\x02\x12*\n\x07weather\x18\x04 \x01(\x0b\x32\x19.snow_removal.WeatherData2g\n\x0bRoadMonitor\x12X\n\x10StreamConditions\x12\x1f.snow_removal.CoordinateRequest\x1a!.snow_removal.RoadConditionUpdate0\x01\x62\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)

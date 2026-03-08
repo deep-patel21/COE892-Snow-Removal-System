@@ -53,8 +53,8 @@ def fetch_weather_data(lat: float, lon: float) -> dict:
     return {"temperature_c": 0.0, "wind_speed_kmh": 0.0, "snow_depth_cm": 0.0}
 
 
-def calculate_priority(frc: str, snow_depth: float) -> tuple[str, str]:
-    """Translates raw API data into Scheduler priorities."""
+def calculate_road_type(frc: str) -> tuple[str, str]:
+    """Translates raw API data into road types."""
 
     if frc in ["FRC0", "FRC1", "FRC2"]:
         road_type = "HIGHWAY"
@@ -63,11 +63,4 @@ def calculate_priority(frc: str, snow_depth: float) -> tuple[str, str]:
     else:
         road_type = "RESIDENTIAL"
 
-    if snow_depth > 5.0 and road_type == "HIGHWAY":
-        priority = "CRITICAL"
-    elif snow_depth > 2.0:
-        priority = "HIGH"
-    else:
-        priority = "NORMAL"
-
-    return road_type, priority
+    return road_type
