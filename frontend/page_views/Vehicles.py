@@ -135,6 +135,8 @@ def color_status(val):
     return ""
 
 def priority_icon(zone, zone_conditions):
+    # Emoji icons are not ideal but necessary here, as Streamlit shortcodes are not supported
+    # in dataframes
     priority_icons = {
         "High":   "🔴",
         "Medium": "🟠",
