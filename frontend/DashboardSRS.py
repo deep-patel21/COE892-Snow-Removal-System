@@ -3,7 +3,6 @@ from datetime import datetime
 from enum import IntEnum
 import streamlit as st
 
-from page_views.Overview import overview_main
 from page_views.Weather import weather_main
 from page_views.Vehicles import vehicles_main
 from page_views.Scheduling import scheduling_main
@@ -12,10 +11,9 @@ logging.basicConfig(level=logging.INFO, format="%(message)s")
 logger = logging.getLogger("SRS")
 
 class Page(IntEnum):
-    OVERVIEW   = 0 
-    WEATHER    = 1 
-    VEHICLES   = 2 
-    SCHEDULING = 3
+    WEATHER    = 0
+    VEHICLES   = 1 
+    SCHEDULING = 2
 
 def configure_streamlit_app():
     st.set_page_config(
@@ -80,14 +78,7 @@ def main():
     configure_streamlit_app()
     page_selection = create_sidebar()
 
-    # weather_data  = get_weather_data()
-    # routes_data   = get_routes_data()
-    # fleet_data    = get_fleet_data()
-    # schedule_data = get_schedule_data()
-
     match page_selection:
-        case Page.OVERVIEW:
-            overview_main()
         case Page.WEATHER:
             weather_main()
         case Page.VEHICLES:
