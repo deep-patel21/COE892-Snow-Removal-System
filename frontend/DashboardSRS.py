@@ -52,7 +52,6 @@ def create_sidebar():
         st.divider()
 
         pages = [
-            ":bar_chart: **Overview**",
             ":cloud_with_rain: **Weather**",
             ":truck: **Vehicles**",
             ":date: **Scheduling**"
