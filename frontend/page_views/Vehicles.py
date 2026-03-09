@@ -7,36 +7,38 @@ from functools import partial
 from data_layer.data_helpers import search_matches
 from data_layer.data_helpers import COORDINATES
 
+from scheduler.scheduler import get_fleet_data
+from scheduler.scheduler import get_conditions
+from scheduler.simulation_data import get_conditions_mock
+
 
 VEHICLES = ["Highway Plow", "Road Plow", "Pickup Truck Plow", "Salting Truck"]
 VEHICLE_STATUS = ["Idle", "En Route", "Active", "Cancelled", "Under Maintenance"]
-ZONES = ["Zone 1 — North Toronto", "Zone 2 — West Toronto", "Zone 3 — East Toronto", "Zone 4 — Brampton"]
+ZONES = [
+    "Zone 1 — North Toronto", "Zone 2 — West Toronto",
+    "Zone 3 — East Toronto",  "Zone 4 — Brampton",
+    "Zone 5 — Etobicoke",     "Zone 6 — Scarborough",
+    "Zone 7 — Richmond Hill", "Zone 8 — Mississauga",
+    "Zone 9 — Markham",       "Zone 10 — Vaughan",
+]
 
-# TK - move sample vehicle fleet data into a database or dedicated file atleast
-def get_fleet_data():
-    """Fleet status — would be fed by vehicle management module."""
-    return pd.DataFrame([
-        {"ID": "SRS-01", "Type": "Highway Plow",      "Status": "Active",            "Zone": "Zone 3 — East Toronto",  "Route": "Hwy 401 E",      "Fuel (%)": 74},
-        {"ID": "SRS-02", "Type": "Highway Plow",      "Status": "En Route",          "Zone": "Zone 1 — North Toronto", "Route": "Sheppard Ave",   "Fuel (%)": 91},
-        {"ID": "SRS-03", "Type": "Highway Plow",      "Status": "Idle",              "Zone": "Zone 2 — West Toronto",  "Route": "—",              "Fuel (%)": 100},
-        {"ID": "SRS-04", "Type": "Highway Plow",      "Status": "Idle",              "Zone": "Zone 2 — West Toronto",  "Route": "—",              "Fuel (%)": 82},
-        {"ID": "SRS-05", "Type": "Road Plow",         "Status": "Active",            "Zone": "Zone 2 — West Toronto",  "Route": "Bloor St W",     "Fuel (%)": 55},
-        {"ID": "SRS-06", "Type": "Road Plow",         "Status": "Active",            "Zone": "Zone 3 — East Toronto",  "Route": "Bloor St E",     "Fuel (%)": 61},
-        {"ID": "SRS-07", "Type": "Road Plow",         "Status": "Active",            "Zone": "Zone 1 — North Toronto", "Route": "Yonge St N",     "Fuel (%)": 67},
-        {"ID": "SRS-08", "Type": "Road Plow",         "Status": "En Route",          "Zone": "Zone 2 — West Toronto",  "Route": "Eglinton Ave W", "Fuel (%)": 88},
-        {"ID": "SRS-09", "Type": "Road Plow",         "Status": "Under Maintenance", "Zone": "Zone 1 — North Toronto", "Route": "—",              "Fuel (%)": 100},
-        {"ID": "SRS-10", "Type": "Road Plow",         "Status": "Idle",              "Zone": "Zone 4 — Brampton",      "Route": "—",              "Fuel (%)": 98},
-        {"ID": "SRS-11", "Type": "Road Plow",         "Status": "Active",            "Zone": "Zone 1 — North Toronto", "Route": "Finch Ave",      "Fuel (%)": 72},
-        {"ID": "SRS-12", "Type": "Road Plow",         "Status": "Active",            "Zone": "Zone 3 — East Toronto",  "Route": "Danforth Ave",   "Fuel (%)": 50},
-        {"ID": "SRS-13", "Type": "Pickup Truck Plow", "Status": "Active",            "Zone": "Zone 4 — Brampton",      "Route": "Bovaird Dr",     "Fuel (%)": 60},
-        {"ID": "SRS-14", "Type": "Pickup Truck Plow", "Status": "Cancelled",         "Zone": "Zone 4 — Brampton",      "Route": "—",              "Fuel (%)": 58},
-        {"ID": "SRS-15", "Type": "Pickup Truck Plow", "Status": "En Route",          "Zone": "Zone 3 — East Toronto",  "Route": "Kingston Rd",    "Fuel (%)": 85},
-        {"ID": "SRS-16", "Type": "Pickup Truck Plow", "Status": "Idle",              "Zone": "Zone 2 — West Toronto",  "Route": "—",              "Fuel (%)": 95},
-        {"ID": "SRS-17", "Type": "Pickup Truck Plow", "Status": "Active",            "Zone": "Zone 2 — West Toronto",  "Route": "Kipling Ave",    "Fuel (%)": 44},
-        {"ID": "SRS-18", "Type": "Salting Truck",     "Status": "Active",            "Zone": "Zone 1 — North Toronto", "Route": "Wilson Ave",     "Fuel (%)": 53},
-        {"ID": "SRS-19", "Type": "Salting Truck",     "Status": "En Route",          "Zone": "Zone 4 — Brampton",      "Route": "Hwy 410",        "Fuel (%)": 78},
-        {"ID": "SRS-20", "Type": "Salting Truck",     "Status": "Idle",              "Zone": "Zone 3 — East Toronto",  "Route": "—",              "Fuel (%)": 90},
-    ])
+
+def get_vehicles_data():
+    try:
+        return get_fleet_data()
+    except Exception as e:
+        st.error(f"Fleet data unavailable: {e}")
+        return pd.DataFrame(columns=["ID", "Type", "Status", "Zone"])
+
+
+@st.cache_data(ttl=120)
+def get_zone_conditions():
+    try:    
+        # return get_conditions()         # Uncomment to use mock data from peak winter season
+        return get_conditions_mock()
+    except Exception as e:
+        st.error(f"gPRC Service Error. Zone Conditions data unavailable: {e}")
+        return {}
 
 
 def generate_summary(vehicles_data):
@@ -132,10 +134,22 @@ def color_status(val):
 
     return ""
 
+def priority_icon(zone, zone_conditions):
+    priority_icons = {
+        "High":   "🔴",
+        "Medium": "🟠",
+        "Low":    "🟡",
+        "Clear":  "🟢",
+    }
+
+    priority = zone_conditions.get(zone, {}).get("dispatch_priority", "")
+    return priority_icons.get(priority, "-")
+
 
 def vehicles_main():
     st.title(":truck: Vehicles")
-    vehicles_data = get_fleet_data()
+    vehicles_data = get_vehicles_data()
+    zone_conditions = get_zone_conditions()
 
     generate_summary(vehicles_data)
     st.divider()
@@ -154,6 +168,15 @@ def vehicles_main():
         zone_filter = st.selectbox(":world_map: Assigned Zone", ["All", *ZONES])
 
     fleet_df = vehicles_data.copy()
+    priority_icons = {
+        "High": ":red_circle:",
+        "Medium": ":orange_circle:",
+        "Low": ":yellow_circle:",
+        "Clear": ":green_circle:",
+    }
+
+    if zone_conditions:
+        fleet_df["Dispatch Priority"] = fleet_df["Zone"].map(lambda z: priority_icon(z, zone_conditions))
 
     if search_query:
         # Filter data based on search query

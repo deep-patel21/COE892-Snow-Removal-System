@@ -7,30 +7,31 @@ import data_layer.snow_removal_pb2 as snow_removal_pb2
 import data_layer.snow_removal_pb2_grpc as snow_removal_pb2_grpc
 from data_layer.data_helpers import COORDINATES as locations
 
-#Temp
+
 def get_fleet_data():
-    """Fleet status — would be fed by vehicle management module."""
+    """Fleet status — Simulating inventory of service vehicles """
+
     return pd.DataFrame([
-        {"ID": "SRS-01", "Type": "Highway Plow",      "Status": "Active",            "Zone": "Zone 3 — East Toronto",  "Route": "Hwy 401 E",      "Fuel (%)": 74},
-        {"ID": "SRS-02", "Type": "Highway Plow",      "Status": "En Route",          "Zone": "Zone 1 — North Toronto", "Route": "Sheppard Ave",   "Fuel (%)": 91},
-        {"ID": "SRS-03", "Type": "Highway Plow",      "Status": "Idle",              "Zone": "Zone 2 — West Toronto",  "Route": "—",              "Fuel (%)": 100},
-        {"ID": "SRS-04", "Type": "Highway Plow",      "Status": "Idle",              "Zone": "Zone 2 — West Toronto",  "Route": "—",              "Fuel (%)": 82},
-        {"ID": "SRS-05", "Type": "Road Plow",         "Status": "Active",            "Zone": "Zone 2 — West Toronto",  "Route": "Bloor St W",     "Fuel (%)": 55},
-        {"ID": "SRS-06", "Type": "Road Plow",         "Status": "Active",            "Zone": "Zone 3 — East Toronto",  "Route": "Bloor St E",     "Fuel (%)": 61},
-        {"ID": "SRS-07", "Type": "Road Plow",         "Status": "Active",            "Zone": "Zone 1 — North Toronto", "Route": "Yonge St N",     "Fuel (%)": 67},
-        {"ID": "SRS-08", "Type": "Road Plow",         "Status": "En Route",          "Zone": "Zone 2 — West Toronto",  "Route": "Eglinton Ave W", "Fuel (%)": 88},
-        {"ID": "SRS-09", "Type": "Road Plow",         "Status": "Under Maintenance", "Zone": "Zone 1 — North Toronto", "Route": "—",              "Fuel (%)": 100},
-        {"ID": "SRS-10", "Type": "Road Plow",         "Status": "Idle",              "Zone": "Zone 4 — Brampton",      "Route": "—",              "Fuel (%)": 98},
-        {"ID": "SRS-11", "Type": "Road Plow",         "Status": "Active",            "Zone": "Zone 1 — North Toronto", "Route": "Finch Ave",      "Fuel (%)": 72},
-        {"ID": "SRS-12", "Type": "Road Plow",         "Status": "Active",            "Zone": "Zone 3 — East Toronto",  "Route": "Danforth Ave",   "Fuel (%)": 50},
-        {"ID": "SRS-13", "Type": "Pickup Truck Plow", "Status": "Active",            "Zone": "Zone 4 — Brampton",      "Route": "Bovaird Dr",     "Fuel (%)": 60},
-        {"ID": "SRS-14", "Type": "Pickup Truck Plow", "Status": "Cancelled",         "Zone": "Zone 4 — Brampton",      "Route": "—",              "Fuel (%)": 58},
-        {"ID": "SRS-15", "Type": "Pickup Truck Plow", "Status": "En Route",          "Zone": "Zone 3 — East Toronto",  "Route": "Kingston Rd",    "Fuel (%)": 85},
-        {"ID": "SRS-16", "Type": "Pickup Truck Plow", "Status": "Idle",              "Zone": "Zone 2 — West Toronto",  "Route": "—",              "Fuel (%)": 95},
-        {"ID": "SRS-17", "Type": "Pickup Truck Plow", "Status": "Active",            "Zone": "Zone 2 — West Toronto",  "Route": "Kipling Ave",    "Fuel (%)": 44},
-        {"ID": "SRS-18", "Type": "Salting Truck",     "Status": "Active",            "Zone": "Zone 1 — North Toronto", "Route": "Wilson Ave",     "Fuel (%)": 53},
-        {"ID": "SRS-19", "Type": "Salting Truck",     "Status": "En Route",          "Zone": "Zone 4 — Brampton",      "Route": "Hwy 410",        "Fuel (%)": 78},
-        {"ID": "SRS-20", "Type": "Salting Truck",     "Status": "Idle",              "Zone": "Zone 3 — East Toronto",  "Route": "—",              "Fuel (%)": 90},
+        {"ID": "SRS-01", "Type": "Highway Plow",      "Status": "Active",            "Zone": "Zone 1 — North Toronto"},
+        {"ID": "SRS-02", "Type": "Salting Truck",     "Status": "En Route",          "Zone": "Zone 1 — North Toronto"},
+        {"ID": "SRS-03", "Type": "Road Plow",         "Status": "Active",            "Zone": "Zone 2 — West Toronto"},
+        {"ID": "SRS-04", "Type": "Road Plow",         "Status": "En Route",          "Zone": "Zone 2 — West Toronto"},
+        {"ID": "SRS-05", "Type": "Road Plow",         "Status": "Active",            "Zone": "Zone 3 — East Toronto"},
+        {"ID": "SRS-06", "Type": "Pickup Truck Plow", "Status": "Idle",              "Zone": "Zone 3 — East Toronto"},
+        {"ID": "SRS-07", "Type": "Highway Plow",      "Status": "Active",            "Zone": "Zone 4 — Brampton"},
+        {"ID": "SRS-08", "Type": "Pickup Truck Plow", "Status": "Idle",              "Zone": "Zone 4 — Brampton"},
+        {"ID": "SRS-09", "Type": "Highway Plow",      "Status": "Active",            "Zone": "Zone 5 — Etobicoke"},
+        {"ID": "SRS-10", "Type": "Salting Truck",     "Status": "En Route",          "Zone": "Zone 5 — Etobicoke"},
+        {"ID": "SRS-11", "Type": "Road Plow",         "Status": "Active",            "Zone": "Zone 6 — Scarborough"},
+        {"ID": "SRS-12", "Type": "Pickup Truck Plow", "Status": "Idle",              "Zone": "Zone 6 — Scarborough"},
+        {"ID": "SRS-13", "Type": "Road Plow",         "Status": "Active",            "Zone": "Zone 7 — Richmond Hill"},
+        {"ID": "SRS-14", "Type": "Salting Truck",     "Status": "Under Maintenance", "Zone": "Zone 7 — Richmond Hill"},
+        {"ID": "SRS-15", "Type": "Highway Plow",      "Status": "Active",            "Zone": "Zone 8 — Mississauga"},
+        {"ID": "SRS-16", "Type": "Road Plow",         "Status": "Idle",              "Zone": "Zone 8 — Mississauga"},
+        {"ID": "SRS-17", "Type": "Pickup Truck Plow", "Status": "Idle",              "Zone": "Zone 9 — Markham"},
+        {"ID": "SRS-18", "Type": "Salting Truck",     "Status": "Cancelled",         "Zone": "Zone 9 — Markham"},
+        {"ID": "SRS-19", "Type": "Pickup Truck Plow", "Status": "Idle",              "Zone": "Zone 10 — Vaughan"},
+        {"ID": "SRS-20", "Type": "Road Plow",         "Status": "Active",            "Zone": "Zone 10 — Vaughan"},
     ])
 
 

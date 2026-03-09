@@ -3,7 +3,10 @@
 import grpc
 import warnings
 
-import snow_removal_pb2 as snow__removal__pb2
+try:
+    from data_layer import snow_removal_pb2 as snow__removal__pb2
+except ModuleNotFoundError:
+    import snow_removal_pb2 as snow__removal__pb2
 
 GRPC_GENERATED_VERSION = '1.78.0'
 GRPC_VERSION = grpc.__version__
