@@ -26,10 +26,8 @@ def get_road_status(lat: float, lon: float):
     traffic = utils.fetch_traffic_data(lat, lon)
     weather = utils.fetch_weather_data(lat, lon)
     
-    road_type, priority = utils.calculate_priority(
-        traffic["frc"], 
-        weather["snow_depth_mm"]
-    )
+    road_type = utils.calculate_road_type(traffic["frc"])
+    priority = utils.calculate_priority_level(weather["snow_depth_mm"])
     
     payload = {
         "road_type": road_type,
