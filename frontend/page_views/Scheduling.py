@@ -24,6 +24,52 @@ def fetch_schedules():
         fleet_df = get_fleet_data()
         zone_conditions = get_conditions_mock()
         plan = dispatch_vehicles(fleet_df, zone_conditions).copy()
+
+        #assign priorities
+        priority_map = {zone: data["dispatch_priority"] for zone, data in zone_conditions.items()}
+        if zone_conditions:
+            plan["Dispatch Priority"] = plan["Zone"].map(priority_map)
+            plan["Priority Level"] = plan["Dispatch Priority"].apply(priority_icon)
+
+        # populate assigned and next zones
+        plan["assigned_zone"] = plan["assigned_zone"].fillna(plan["Zone"])
+        next_zone_map = {}
+        for i in range(len(ZONES)):
+            current_zone = ZONES[i]
+            next_zone_index = (i + 1) % len(ZONES)
+            next_zone_map[current_zone] = ZONES[next_zone_index]
+        plan["nextzone"] = plan["assigned_zone"].map(next_zone_map)  
+
+        #assign start and end times based on priority 
+        now = pd.Timestamp.now().floor('min')
+
+        # how long until each job starts based on priority
+        start_delays = {
+            "High": 0,   # High: Starts immediately
+            "Medium": 2,   # Medium: Starts in 2 hours
+            "Low": 6,   # Low: Starts in 6 hours
+            "Clear": 24   # Clear: Routine patrol tomorrow
+        }
+
+        # how long each job will take based on priority
+        job_durations = {
+            "High": 3,   # Takes 3 hours
+            "Medium": 4,   # Takes 4 hours
+            "Low": 4,   # Takes 4 hours
+            "Clear": 2    # Takes 2 hours
+        }
+
+        random_delays = np.random.randint(10, 80, size=len(plan))
+
+        # Cleans the column just in case there are invisible spaces aaround txt
+        priority_col = plan["Dispatch Priority"].str.strip()
+
+        # Creates the Start Time column instantly
+        plan["Start Time"] = now + pd.to_timedelta(priority_col.map(start_delays), unit='h') + pd.to_timedelta(random_delays, unit='m')
+
+        # Creates the End Time column instantly
+        plan["End Time"] = plan["Start Time"] + pd.to_timedelta(priority_col.map(job_durations), unit='h') 
+        
         print(plan)
         return plan
         
