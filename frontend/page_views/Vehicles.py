@@ -34,8 +34,8 @@ def get_vehicles_data():
 @st.cache_data(ttl=120)
 def get_zone_conditions():
     try:    
-        # return get_conditions()         # Uncomment to use mock data from peak winter season
-        return get_conditions_mock()
+        # return get_conditions() 
+        return get_conditions_mock()      # Uncomment to use mock data from peak winter season
     except Exception as e:
         st.error(f"gPRC Service Error. Zone Conditions data unavailable: {e}")
         return {}
