@@ -9,7 +9,13 @@ from data_layer.data_helpers import COORDINATES
 from scheduler.scheduler import get_fleet_data, dispatch_vehicles  
 from scheduler.simulation_data import get_conditions_mock
 
-
+ZONES = [
+    "Zone 1 — North Toronto", "Zone 2 — West Toronto",
+    "Zone 3 — East Toronto",  "Zone 4 — Brampton",
+    "Zone 5 — Etobicoke",     "Zone 6 — Scarborough",
+    "Zone 7 — Richmond Hill", "Zone 8 — Mississauga",
+    "Zone 9 — Markham",       "Zone 10 — Vaughan",
+]
 
 @st.cache_data(ttl=120)
 
@@ -68,6 +74,16 @@ def generate_timeline(schedule_df):
     )
     
     st.plotly_chart(fig, use_container_width=True)
+
+def priority_icon(priority):
+    priority_icons = {
+        "High":   "🔴",
+        "Medium": "🟠",
+        "Low":    "🟡",
+        "Clear":  "🟢",
+    }
+
+    return priority_icons.get(priority, "-")
 
 
 
