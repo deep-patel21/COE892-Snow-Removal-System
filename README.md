@@ -13,4 +13,4 @@ Source code for the term project of course COE892 at Toronto Metropolitan Univer
 ```python3 -m uvicorn data_layer.data_extraction:app --reload```
 
 4. Run the Streamlit Dashboard:
-```python3 -m streamlit run DashboardSRS.py```
+```python3 -m streamlit run frontend/DashboardSRS.py```
