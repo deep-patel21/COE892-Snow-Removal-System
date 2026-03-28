@@ -7,7 +7,7 @@ The Snow Removal System (SRS) is an interactive tool that combines data from API
 
 ### Installation
 Please note that development was performed on Python 3.11.9+. Ensure versions match before proceeding to installation and usage.
-1. Repository Cloning
+1. Repository Cloning:
 ```git clone https://github.com/deep-patel21/COE892-Snow-Removal-System.git```
 2. Dependency Installation:
 ```pip install -r requirements.txt```
