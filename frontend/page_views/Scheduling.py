@@ -164,7 +164,17 @@ def scheduling_main():
         display_df["End Time"] = display_df["End Time"].dt.strftime("%H:%M")
         
         # Reorder columns for the UI table
-        display_df = display_df[["ID", "Zone", "Type", "Priority Level", "Dispatch Priority", "Start Time", "End Time", "Status"]]
+        display_df = display_df[["ID", "assigned_zone", "Type","Status", "Priority Level", "Dispatch Priority", "Start Time", "End Time", "nextzone"]]
+        display_df = display_df.rename(columns={
+            "ID": "Vehicle ID",
+            "Type": "Equipment Type",
+            "Priority Level": "Urgency",
+            "Dispatch Priority": "Priority",
+            "Start Time": "Scheduled Start",
+            "End Time": "Estimated Completion",
+            "assigned_zone": "Current Zone",
+            "nextzone": "Next Zone"
+        })
         
         st.dataframe(display_df, use_container_width=True, hide_index=True)
     else:
