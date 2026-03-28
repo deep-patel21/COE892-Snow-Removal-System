@@ -2,6 +2,7 @@ streamlit==1.55.0
 plotly==6.6.0
 pandas==2.3.3
 pydeck==0.9.1
+numpy==2.3.0
 uvicorn
 fastapi
 requests
