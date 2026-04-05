@@ -1,5 +1,5 @@
 from fastapi import FastAPI, HTTPException
-import data_layer.data_utilities as utils
+import data_utilities as utils
 
 app = FastAPI(title="Snow Removal Extraction Module")
 
