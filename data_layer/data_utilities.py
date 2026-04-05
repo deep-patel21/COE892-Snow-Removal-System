@@ -25,10 +25,8 @@ def fetch_traffic_data(lat: float, lon: float) -> dict:
 
 
 def fetch_weather_data(lat: float, lon: float) -> dict:
-    """Extracts localized environmental variables using a dynamic bounding box."""
 
-    # Define a localized radius around the coordinates to capture nearby weather stations
-    # This creates a tight 10x10km net around the specific road segment
+    #create a bounding box with some leeway(the delta value here)
     delta = 0.3
     bbox = f"{lon - delta},{lat - delta},{lon + delta},{lat + delta}"
     url = f"https://api.weather.gc.ca/collections/swob-realtime/items?bbox={bbox}&f=json&limit=1"
@@ -37,6 +35,7 @@ def fetch_weather_data(lat: float, lon: float) -> dict:
         response = requests.get(url, timeout=5).json()
         features = response.get("features", [])
 
+        #if not empty
         if features:
             props = features[0].get("properties", {})
             return {
@@ -49,12 +48,11 @@ def fetch_weather_data(lat: float, lon: float) -> dict:
     except requests.RequestException:
         print(f"Warning: MSC GeoMet connection failed for zone {bbox}.")
 
-    # Failsafe ensures the system continues operating if a local sensor is offline
+    #just in case features is empty, which is an error, just send a placeholder object
     return {"temperature_c": 0.0, "wind_speed_kmh": 0.0, "snow_depth_cm": 0.0}
 
-
+#categorize road types
 def calculate_road_type(frc: str) -> tuple[str, str]:
-    """Translates raw API data into road types."""
 
     if frc in ["FRC0", "FRC1", "FRC2"]:
         road_type = "HIGHWAY"
@@ -65,6 +63,7 @@ def calculate_road_type(frc: str) -> tuple[str, str]:
 
     return road_type
 
+#higher amounts of wsnow means more priority!
 def calculate_priority_level(snow_depth_mm: int) -> str:
     if snow_depth_mm >= 200:   # Heavy snow
         return "High"

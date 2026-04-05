@@ -1,19 +1,16 @@
-"""
-Written as a tester file to test gRPC communications
-"""
-
 import grpc
 
 import snow_removal_pb2
 import snow_removal_pb2_grpc
 
+#this is a test client 
 def run():
-    # Establish a connection to the gRPC server
+    #
     print("Attempting to connect to the Extraction Module...")
     with grpc.insecure_channel('localhost:50051') as channel:
         stub = snow_removal_pb2_grpc.RoadMonitorStub(channel)
         
-        # Define a test coordinate within your Toronto boundary (Downtown)
+        # Define a test coordinate within your Toronto GTA boundary
         request = snow_removal_pb2.CoordinateRequest(
             latitude=43.6532, 
             longitude=-79.3832

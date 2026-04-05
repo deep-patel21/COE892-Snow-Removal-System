@@ -1,4 +1,4 @@
-API_BASE = "http://localhost:8000/api/v1"   # Dedicated local API endpoint
+API_BASE = "http://localhost:8000/api/v1"   #URL to fastapi service
 
 COORDINATES = {
     "Zone 1 — North Toronto":  {"lat": 43.761, "lon": -79.411},

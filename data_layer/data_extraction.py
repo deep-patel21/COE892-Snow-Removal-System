@@ -3,7 +3,7 @@ import data_layer.data_utilities as utils
 
 app = FastAPI(title="Snow Removal Extraction Module")
 
-# Geographic Bounding Box Validation for Greater Toronto Area
+#gta boundary
 BOUNDS = {
     "lat_min": 43.50,
     "lat_max": 44.00,
@@ -26,9 +26,11 @@ def get_road_status(lat: float, lon: float):
     traffic = utils.fetch_traffic_data(lat, lon)
     weather = utils.fetch_weather_data(lat, lon)
     
+    #frc means functional roade class
     road_type = utils.calculate_road_type(traffic["frc"])
     priority = utils.calculate_priority_level(weather["snow_depth_mm"])
     
+    #construct the payload using the data provided by the utils file
     payload = {
         "road_type": road_type,
         "dispatch_priority": priority,
